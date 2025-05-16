@@ -14,7 +14,9 @@ public class GeneratePayload {
 	private static final int USAGE_CODE = 64;
 
 	public static void main(final String[] args) {
-		if (args.length != 2) {
+        System.out.println("[+] Evil cat custom payload for River Unmarshalled");
+
+        if (args.length != 2) {
 			printUsage();
 			System.exit(USAGE_CODE);
 		}
