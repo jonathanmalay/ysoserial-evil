@@ -10,7 +10,7 @@ import ysoserial.payloads.annotation.Dependencies;
 
 @SuppressWarnings("rawtypes")
 public class GeneratePayload {
-	private static final int INTERNAL_ERROR_CODE = 70;
+	public static final int INTERNAL_ERROR_CODE = 70;
 	private static final int USAGE_CODE = 64;
 
 	public static void main(final String[] args) {
